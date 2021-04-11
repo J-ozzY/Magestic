@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Enemy
   - Bullet
+  - E_bullets
+  - Coin
+  - Wall
+  - smallHeal
+  - bigHeal
   layers:
   - Default
   - TransparentFX
@@ -14,16 +19,16 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - PickUps
   - Player
   - Bullets
   - Obstractions
   - Walls
   - Enviroment
   - Enemy
-  - 
-  - 
-  - 
+  - E_bullets
+  - Wall_decor
+  - Air_enemy
   - 
   - 
   - 
@@ -46,6 +51,9 @@ TagManager:
   - name: Ground
     uniqueID: 2247992385
     locked: 0
+  - name: groundDecor
+    uniqueID: 1588770065
+    locked: 0
   - name: Decoration
     uniqueID: 1921841377
     locked: 0
@@ -54,6 +62,9 @@ TagManager:
     locked: 0
   - name: PickUps
     uniqueID: 3953180125
+    locked: 0
+  - name: e_bullets
+    uniqueID: 2511737695
     locked: 0
   - name: Walls
     uniqueID: 1479870033
@@ -67,6 +78,12 @@ TagManager:
   - name: Weapons
     uniqueID: 3918791075
     locked: 0
+  - name: Air_enemy
+    uniqueID: 2983841399
+    locked: 0
   - name: Player
     uniqueID: 1613118525
+    locked: 0
+  - name: Wall_decor
+    uniqueID: 1158070739
     locked: 0

@@ -1,36 +1,90 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //private Player player;
+    public int coin = 0;
     public float moveSpeed;
-    //public Camera cam;
     public Rigidbody2D rb;
-    //public Rigidbody2D weapon_rb;
-    private float timeBtwShots; // pro cas mezi strelami
+    private float timeBtwShots; 
     public float startTimeBtwShots;
     public Animator anim;
-    //public GameObject myPlayer;
     private Vector2 moveDirection;
-    //private Vector2 mousePosition;
-    //public GameObject CrossHair;
+    public TextMeshProUGUI textCoins;
+
 
     public Weapon weapon;
 
+
+
+    public int maxHealth = 100;
+    public int currentHealth;
+
+    public HealthBar healthBar;
+
+    void Start()
+    {
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        FindObjectOfType<AudioManager>().Play("PlayerTakingDmg");
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            FindObjectOfType<AudioManager>().Play("PlayerDeath");
+            Destroy(gameObject);
+        }
+
+    }
+
+    public void Heal(int heal)
+    {
+        
+        currentHealth += heal;
+        healthBar.SetHealth(currentHealth);
+
+        if (currentHealth >= maxHealth)
+        {
+            currentHealth = maxHealth;
+            healthBar.SetHealth(currentHealth);
+        }
+        if(heal >= 20)
+        {
+            FindObjectOfType<AudioManager>().Play("bigHeal");
+        }
+        if (heal <= 18)
+        {
+            FindObjectOfType<AudioManager>().Play("smallHeal");
+        }
+    }
 
 
     void Update()                    // podle fps
     {
         
         ProcessInputs();
+        
     }
+    
+    
 
     void FixedUpdate()          // nekolikrat za update
     {
         Move();
         //FlipPlayer();
+    }
+
+    internal static int TakeDamage(object d)
+    {
+        throw new NotImplementedException();
     }
 
     void ProcessInputs()
@@ -44,6 +98,7 @@ public class PlayerController : MonoBehaviour
             {
                 weapon.Fire();
                 timeBtwShots = startTimeBtwShots;
+                FindObjectOfType<AudioManager>().Play("PlayerAttack");
             }
         }
         else
@@ -53,7 +108,8 @@ public class PlayerController : MonoBehaviour
 
         moveDirection = new Vector2(moveX, moveY).normalized;
 
-        anim.SetFloat("Horizontal", moveDirection.x);    //animace
+        anim.SetFloat("Horizontal", moveDirection.x);
+        anim.SetFloat("Vertical", moveDirection.y);   //animace
 
 
 
@@ -67,35 +123,25 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
-    //private void FlipPlayer()
-    //{
-    //   Vector3 diffrenc = Camera.main.ScreenToWorldPoint(Input.mousePosition) + transform.position;
-    //    //Vector3 diffrenc = transform.position;
-    //    diffrenc.Normalize();
-
-    //    float ratationZ = Mathf.Atan2(diffrenc.y, diffrenc.x) * Mathf.Rad2Deg;
-
-    //    transform.rotation = Quaternion.Euler(0f, 0f, 0);
-
-    //    if (ratationZ < -90 || ratationZ > 90)
-    //    {
-    //        if (myPlayer.transform.eulerAngles.y == 0)
-    //        {
-    //            transform.localRotation = Quaternion.Euler(0, 180, 0);
-
-
-    //        }
-    //        else if (myPlayer.transform.eulerAngles.y == 180)
-    //        {
-    //            transform.localRotation = Quaternion.Euler(180, 180, 0);
-
-
-
-
-    //        }
-    //    }
     
-        //end of flip player
-    //}
+
+    private void OnTriggerEnter2D(Collider2D healtr)
+    {
+        if (healtr.gameObject.tag == "smallHeal")
+        {
+            Heal(12);
+        }
+
+        if (healtr.gameObject.tag == "bigHeal")
+        {
+            Heal(30);
+        }
+        if(healtr.gameObject.tag == "Coin")
+                coin++;
+        textCoins.text = coin.ToString();
+
+    }
+    
+
+
 }

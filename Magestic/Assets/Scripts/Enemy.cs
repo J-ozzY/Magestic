@@ -2,8 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyState
+{
+    idle,
+    walk,
+    attack,
+    stagger
+}
+
+
 public class Enemy : MonoBehaviour
 {
+    public EnemyState currentState;
     public int helth;
     public string enemyName;
     public int baseAttack;
@@ -29,6 +39,8 @@ public class Enemy : MonoBehaviour
             helth--;
             if (helth <= 0)
             {
+                FindObjectOfType<AudioManager>().Play("EnemyDeath");
+                GetComponent<RandomLoot>().ItemDrop();
                 Destroy(gameObject);
 
             }

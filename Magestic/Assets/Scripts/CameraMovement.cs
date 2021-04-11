@@ -6,6 +6,12 @@ public class CameraMovement : MonoBehaviour
 {
     public Transform target;
     public float plynulost;
+    public Vector2 maxPositoin;
+    public Vector2 minPosition;
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {

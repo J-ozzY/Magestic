@@ -4,36 +4,94 @@ using UnityEngine;
 
 public class Skeleton : Enemy // Bere ze skriptu Enemy
 {
-
+    private Rigidbody2D myRigidbody;
     public Transform target;
     public float chaseRadius;
     public float attackRadius;
+    
     public Transform homePosition;
+    public float timer;
 
-    // Start is called before the first frame update
+    private RaycastHit2D hit;
+    private float distance;
+
+
+    private bool attackMode;
+    private bool inRange;
+    private bool cooling;// Time btw attacks
+    private float intTimer;
+    
+
+
+    private void Awake()
+    {
+        intTimer = timer;
+
+    }
+
     void Start()
     {
+        myRigidbody = GetComponent<Rigidbody2D>();
         target = GameObject.FindWithTag("Player").transform;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (inRange)
+        {
+            hit = Physics2D.Raycast(transform.position, target.position, attackRadius);
+            RayDebugger();
+        }
         CheckDistance();
     }
 
-    void CheckDistance()
+    private void OnTriggerEnter2D(Collider2D trig)
     {
-        if(Vector3.Distance(target.position,
-                                transform.position)<= chaseRadius
-                        && Vector3.Distance(target.position, transform.position) > attackRadius)
+        if(trig.gameObject.tag == "Player")
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+            
+                inRange = true;
         }
     }
 
 
+    void CheckDistance()
+    {
+        distance = Vector2.Distance(transform.position, target.transform.position);
 
+        
+
+        if(Vector3.Distance(target.position,
+                                transform.position)<= chaseRadius
+                        && Vector3.Distance(target.position, transform.position) > attackRadius)
+        {
+            Vector3 temp = transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+            myRigidbody.MovePosition(temp);
+        }
+        //else if(Vector3.Distance(target.position, transform.position)<= attackRadius)
+        //{
+
+        //}
+
+        
+    
+    }
+
+
+
+
+
+    void RayDebugger()
+    {
+        if(distance > attackRadius)
+        {
+            Debug.DrawRay(transform.position, target.position * attackRadius, Color.red);
+        }
+        else if(attackRadius > distance)
+        {
+            Debug.DrawRay(transform.position, target.position * attackRadius, Color.green);
+        }
+    }
 
 
 
