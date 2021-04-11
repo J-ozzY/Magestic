@@ -171,10 +171,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idrops:
-  - {fileID: 6508163191189462203, guid: e896a45589de3e44889204c7f5aa7e14, type: 3}
+  - {fileID: 8269327475037392567, guid: 4526e8c4a66321e448039fc0d1bb5048, type: 3}
   - {fileID: 6508163191189462203, guid: e896a45589de3e44889204c7f5aa7e14, type: 3}
   - {fileID: 2892020853500576893, guid: 5268a657aafd99b429168d0981379503, type: 3}
-  table: 28000000140000000a000000
+  table: 3c000000140000000a000000
   total: 0
   randomNumber: 0
 --- !u!50 &3691364531058425379
