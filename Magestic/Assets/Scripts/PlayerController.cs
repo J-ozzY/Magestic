@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class PlayerController : MonoBehaviour
         if (currentHealth <= 0)
         {
             FindObjectOfType<AudioManager>().Play("PlayerDeath");
-            Destroy(gameObject);
+            SceneManager.LoadScene(2);
         }
 
     }
@@ -137,8 +138,14 @@ public class PlayerController : MonoBehaviour
             Heal(30);
         }
         if(healtr.gameObject.tag == "Coin")
+        {
                 coin++;
-        textCoins.text = coin.ToString();
+            textCoins.text = coin.ToString();
+        }
+        if (healtr.gameObject.tag == "End")
+        {
+            SceneManager.LoadScene(3);
+        }
 
     }
     
